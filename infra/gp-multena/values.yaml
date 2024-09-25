@@ -7,9 +7,11 @@ proxy:
     bypass: false # enable admin bypass
     group: gepardec-run-admins # group name for admin bypass
   thanos:
+    pathPrefix: ""
     url: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091
     tenantLabel: namespace
   loki:
+    pathPrefix: "loki/"
     url: https://loki-query-frontend-http.openshift-logging.svc.cluster.local:3100
     tenantLabel: kubernetes_namespace_name
     headers:
@@ -29,6 +31,7 @@ proxy:
     oauthGroupName: "groups"
     jwksCertUrl: https://sso.play.run.gepardec.com/realms/internal/protocol/openid-connect/certs
     tlsVerifySkip: false # skip tls verification very insecurely!!!
+    headerContainingJWT: Authorization
   securityContext: {}
   topologySpreadConstraints: []
 

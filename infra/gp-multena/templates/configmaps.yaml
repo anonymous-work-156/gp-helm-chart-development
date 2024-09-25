@@ -20,6 +20,7 @@ data:
       label_store_kind: {{ .Values.proxy.web.labelStoreKind }}
       jwks_cert_url: {{ .Values.proxy.web.jwksCertUrl }}
       oauth_group_name: {{ .Values.proxy.web.oauthGroupName }}
+      header_containing_jwt: {{ .Values.proxy.web.headerContainingJWT }}
 
     admin:
       bypass: {{ .Values.proxy.admin.bypass }}
@@ -38,6 +39,7 @@ data:
     {{- end }}
 
     thanos:
+      path_prefix: {{ .Values.proxy.thanos.pathPrefix }}
       url: {{ .Values.proxy.thanos.url }}
       tenant_label: {{ .Values.proxy.thanos.tenantLabel }}
       use_mutual_tls: {{ .Values.tls.thanos.enabled }}
@@ -49,6 +51,7 @@ data:
         {{- end }}
 
     loki:
+      path_prefix: {{ .Values.proxy.loki.pathPrefix }}
       url: {{ .Values.proxy.loki.url }}
       tenant_label: {{ .Values.proxy.loki.tenantLabel }}
       use_mutual_tls: {{ .Values.tls.loki.enabled }}
