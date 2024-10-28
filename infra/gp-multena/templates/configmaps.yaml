@@ -23,8 +23,10 @@ data:
       header_containing_jwt: {{ .Values.proxy.web.headerContainingJWT }}
 
     admin:
-      bypass: {{ .Values.proxy.admin.bypass }}
+      group_bypass: {{ .Values.proxy.admin.groupBypass }}
       group: {{ .Values.proxy.admin.group }}
+      magic_value_bypass: {{ .Values.proxy.admin.magicValueBypass }}
+      magic_value: {{ .Values.proxy.admin.magicValue }}
 
     {{- if .Values.proxy.db.enabled }}
     db:
@@ -42,6 +44,11 @@ data:
       path_prefix: {{ .Values.proxy.thanos.pathPrefix }}
       url: {{ .Values.proxy.thanos.url }}
       tenant_label: {{ .Values.proxy.thanos.tenantLabel }}
+      error_on_illegal_tenant_value: {{ .Values.proxy.thanos.errorOnIllegalTenantValue }}
+      metrics_tenant_optional:
+        {{- range .Values.proxy.thanos.metricsTenantOptional }}
+        - {{ . }}
+        {{- end }}
       use_mutual_tls: {{ .Values.tls.thanos.enabled }}
       cert: "/etc/secrets/ca/thanos/{{ .Values.tls.thanos.cert }}"
       key: "/etc/secrets/ca/thanos/{{ .Values.tls.thanos.key }}"
@@ -54,6 +61,7 @@ data:
       path_prefix: {{ .Values.proxy.loki.pathPrefix }}
       url: {{ .Values.proxy.loki.url }}
       tenant_label: {{ .Values.proxy.loki.tenantLabel }}
+      error_on_illegal_tenant_value: {{ .Values.proxy.loki.errorOnIllegalTenantValue }}
       use_mutual_tls: {{ .Values.tls.loki.enabled }}
       cert: "/etc/secrets/ca/loki/{{ .Values.tls.loki.cert }}"
       key: "/etc/secrets/ca/loki/{{ .Values.tls.loki.key }}"

@@ -4,16 +4,21 @@ proxy:
   log:
     level: 1 # 0 - debug, 1 - info, 2 - warn, 3 - error, -1 trace (exposes sensitive data)
   admin:
-    bypass: false # enable admin bypass
-    group: gepardec-run-admins # group name for admin bypass
+    groupBypass: false           # enable admin bypass
+    group: gepardec-run-admins   # group name for admin bypass
+    magicValueBypass: false      # enable bypass for anyone configured to point at a magic value
+    magicValue: "#cluster-wide"  # magic value to allow bypass
   thanos:
     pathPrefix: ""
     url: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091
     tenantLabel: namespace
+    errorOnIllegalTenantValue: true
+    metricsTenantOptional: []
   loki:
     pathPrefix: "loki/"
     url: https://loki-query-frontend-http.openshift-logging.svc.cluster.local:3100
     tenantLabel: kubernetes_namespace_name
+    errorOnIllegalTenantValue: true
     headers:
       X-Scope-OrgID: application
   db:
@@ -43,9 +48,9 @@ GrafanaOperatorDatasources:
 
 replicas: 1
 image:
-  repository: ghcr.io/gepaplexx/multena-proxy
+  repository: ghcr.io/gepaplexx/multena-proxy  # NOTE: won't work at all, you need to build and host your own image
   pullPolicy: IfNotPresent
-  tag: "0.6.3"
+  tag: "0.6.3"                                 # NOTE: won't work at all, you need to build and host your own image
 
 collector:
   enabled: true # enables rbac collection of cluster
